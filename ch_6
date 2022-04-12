@@ -1,0 +1,112 @@
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+    public static final String 나누기="나누기";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        EditText num1=findViewById(R.id.num1);
+        EditText num2=findViewById(R.id.num2);
+        TextView textView=findViewById(R.id.view);
+
+
+
+        Button button[]={
+                findViewById(R.id.button1),
+                findViewById(R.id.button2),
+                findViewById(R.id.button3),
+                findViewById(R.id.button4),
+                findViewById(R.id.button5),
+                findViewById(R.id.button6),
+                findViewById(R.id.button7),
+                findViewById(R.id.button8),
+                findViewById(R.id.button9),
+                findViewById(R.id.button10)
+        };
+        Button button1[]={
+                findViewById(R.id.button11),
+                findViewById(R.id.button12),
+                findViewById(R.id.button13),
+                findViewById(R.id.button14)
+
+        };
+        View.OnClickListener onClickListenerbutton=new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button btn=(Button) view;
+                String s = btn.getText().toString();
+                EditText num=null;
+
+                if(num1.hasFocus()){
+
+
+                    num=num1;
+                }
+                else if(num2.hasFocus()){
+                    num=num2;
+                }
+                try{
+                    String prev=num.getText().toString();
+                    num.setText(prev+s);
+            }catch (NullPointerException e){
+
+                }
+
+
+            }
+        };
+        View.OnClickListener onClickListenerbutton1=new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button btn=(Button) view;
+                String cmd=btn.getText().toString();
+                String s1 = num1.getText().toString();
+                String s2 = num2.getText().toString();
+                int i1=Integer.parseInt(s1);
+                int i2=Integer.parseInt(s2);
+                double result=0;
+                if(cmd.equals("더하기")){
+
+                    result=i1+i2;
+                }
+                else if(cmd.equals("빼기기")){
+                    result=i1-i2;
+
+               }
+                else if(cmd.equals("곱하기")){
+                    result=i1*i2;
+
+                }
+                else if(cmd.equals(나누기)){
+                    result=(double)i1/i2;
+
+                }
+                textView.setText("계산결과"+result);
+
+            }
+        };
+
+
+        for(Button btn:button){
+            btn.setOnClickListener(onClickListenerbutton);
+
+        }
+        for(Button btn:button1){
+            btn.setOnClickListener(onClickListenerbutton1);
+
+        }
+
+
+
+    }
+}
