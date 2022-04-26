@@ -1,0 +1,88 @@
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.SystemClock;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.TimePicker;
+
+public class MainActivity extends AppCompatActivity {
+
+    private int year;
+    private int month;
+    private int day;
+    private int hour;
+    private int minute;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        Chronometer chronometer =findViewById(R.id.chronometer2);
+        Button buttonstart = findViewById(R.id.button);
+        RadioGroup radioGroup = findViewById(R.id.radiogroup);
+        Button buttonshow =findViewById(R.id.button2);
+        Button buttonend =findViewById(R.id.button3);
+        TextView textView = findViewById(R.id.textView);
+
+        buttonstart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.start();
+                chronometer.setTextColor(Color.BLUE);
+            }
+        });
+
+        buttonshow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int radioButtonId=radioGroup.getCheckedRadioButtonId();
+                if(radioButtonId==R.id.radioButton){
+                    DatePickerDialog pickerDialog=new DatePickerDialog(MainActivity.this);
+                    pickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                            year=i;
+                            month=i1+1;
+                            day=i2;
+                        }
+                    });
+                    pickerDialog.show();
+                }
+                else if(radioButtonId==R.id.radioButton2){
+                    TimePickerDialog pickerDialog=new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                            hour=i;
+                            minute=i1;
+                        }
+                    },0,0,true);
+                    pickerDialog.show();
+                }
+
+            }
+        });
+        buttonend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chronometer.stop();
+                chronometer.setTextColor(Color.RED);
+
+                textView.setText(year+"년"+month+"월"+day+"일"+hour+"시"+minute+"분 예약됨");
+            }
+        });
+    }
+}
